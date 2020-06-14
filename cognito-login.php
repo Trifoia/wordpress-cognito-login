@@ -3,7 +3,7 @@
   Plugin Name: Cognito Login
   Plugin URI: https://github.com/Trifoia/wordpress-cognito-login
   description: WordPress plugin for integrating with Cognito for user logins
-  Version: 1.1.0
+  Version: 1.2.0
   Author: Trifoia
   Author URI: https://trifoia.com
 */
@@ -27,14 +27,18 @@ class Cognito_Login{
    * The default shortcode returns an "a" tag, or a logout link, depending on if the user is
    * logged in
    */
-  public static function shortcode_default() {
+  public static function shortcode_default( $atts ) {
+    $atts = shortcode_atts( array(
+      'text' => NULL,
+      'class' => NULL
+    ), $atts );
     $user = wp_get_current_user();
 
     if ( $user->{'ID'} !== 0 ) {
       return Cognito_Login_Generate_Strings::already_logged_in( $user->{'user_login'} );
     }
 
-    return Cognito_Login_Generate_Strings::a_tag();
+    return Cognito_Login_Generate_Strings::a_tag( $atts );
   }
 
   /**

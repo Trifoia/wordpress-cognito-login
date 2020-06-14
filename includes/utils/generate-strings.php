@@ -36,9 +36,15 @@ class Cognito_Login_Generate_Strings {
 
   /**
    * "a" tag for the login link
+   * 
+   * @param array $atts Possible attributes, text and class
    */
-  public static function a_tag() {
-    return '<a class="cognito-login-link" href="' . Cognito_Login_Generate_Strings::login_url() . '">Login Link</a>';
+  public static function a_tag( $atts ) {
+    $url = Cognito_Login_Generate_Strings::login_url();
+    $text = $atts['text'] ?: get_option( 'login_link_text' ) ?: 'Login';
+    $class = $atts['class'] ?: get_option( 'login_link_class' ) ?: 'cognito-login-link';
+
+    return '<a class="' . $class . '" href="' . $url . '">' . $text . '</a>';
   }
 
   /**

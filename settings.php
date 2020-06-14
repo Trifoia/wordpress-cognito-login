@@ -123,6 +123,28 @@ class Cognito_Login_Settings {
         'supplemental' => 'The domain to send a newly logged in user. Leave empty to not redirect',
         'default' => ''
       ),
+      array(
+        'uid' => 'login_link_text',
+        'label' => 'Login Link Text',
+        'section' => 'plugin_settings',
+        'type' => 'text',
+        'options' => false,
+        'placeholder' => 'Login',
+        'helper' => '',
+        'supplemental' => 'Text to include in the login link. HTML compatible',
+        'default' => 'Login'
+      ),
+      array(
+        'uid' => 'login_link_class',
+        'label' => 'Login Link Class',
+        'section' => 'plugin_settings',
+        'type' => 'text',
+        'options' => false,
+        'placeholder' => 'cognito-login-link',
+        'helper' => '',
+        'supplemental' => 'Class to add to the login <a> tag',
+        'default' => 'cognito-login-link'
+      ),
 
       // New user settings
       array(
