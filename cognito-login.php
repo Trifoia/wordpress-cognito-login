@@ -3,7 +3,7 @@
   Plugin Name: Cognito Login
   Plugin URI: https://github.com/Trifoia/wordpress-cognito-login
   description: WordPress plugin for integrating with Cognito for user logins
-  Version: 0.1.0
+  Version: 1.0.0
   Author: Trifoia
   Author URI: https://trifoia.com
 */
@@ -17,6 +17,7 @@ include_once( PLUGIN_PATH . 'includes/utils/generate-strings.php' );
 // --- Include Units ---
 include_once( PLUGIN_PATH . 'includes/units/auth.php' );
 include_once( PLUGIN_PATH . 'includes/units/programmatic-login.php' );
+include_once( PLUGIN_PATH . 'includes/units/user.php' );
 
 /**
  * General initialization function container
@@ -70,13 +71,15 @@ class Cognito_Login{
       // Create a new user only if the setting is turned on
       if ( get_option( 'create_new_user' ) !== 'true' ) return;
 
-      // Create a new user
+      // Create a new user and abort on failure
+      $user = Cognito_Login_User::create_user( $parsed_token );
+      if ( $user === FALSE ) return;
     }
 
     // Log the user in! Exit if the login fails
     if ( Cognito_Login_Programmatic_Login::login( $username ) === FALSE ) return;
 
-    // Redirect the user to the "homepage", if it is set
+    // Redirect the user to the "homepage", if it is set (this will hide all `print` statements)
     $homepage = get_option('homepage');
     if ( !empty( $homepage ) ) {
       Cognito_Login_Auth::redirect_to( $homepage );

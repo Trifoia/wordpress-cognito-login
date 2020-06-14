@@ -38,6 +38,7 @@ class Cognito_Login_Settings {
   public function setup_sections() {
     add_settings_section( 'cognito_auth_settings', 'Cognito Auth Settings', false, 'cognito_login_fields' );
     add_settings_section( 'plugin_settings', 'Plugin Settings', false, 'cognito_login_fields' );
+    add_settings_section( 'new_user_settings', 'New User Settings', false, 'cognito_login_fields' );
   }
 
   public function setup_fields() {
@@ -122,10 +123,12 @@ class Cognito_Login_Settings {
         'supplemental' => 'The domain to send a newly logged in user. Leave empty to not redirect',
         'default' => ''
       ),
+
+      // New user settings
       array(
         'uid' => 'create_new_user',
         'label' => 'Create New User',
-        'section' => 'plugin_settings',
+        'section' => 'new_user_settings',
         'type' => 'select',
         'options' => array(
           'true' => 'Yes',
@@ -134,18 +137,54 @@ class Cognito_Login_Settings {
         'placeholder' => '',
         'helper' => '',
         'supplemental' => 'Should a new user be created if they don\'t yet exist?',
-        'default' => 'openid'
+        'default' => 'true'
       ),
       array(
         'uid' => 'username_attribute',
         'label' => 'Username Attribute',
-        'section' => 'plugin_settings',
+        'section' => 'new_user_settings',
         'type' => 'text',
         'options' => false,
         'placeholder' => 'email',
         'helper' => '',
         'supplemental' => 'The attribute to use as a WordPress "Username"',
         'default' => 'email'
+      ),
+      array(
+        'uid' => 'password_length',
+        'label' => 'Password Length',
+        'section' => 'new_user_settings',
+        'type' => 'text',
+        'options' => false,
+        'placeholder' => '18',
+        'helper' => '',
+        'supplemental' => 'Length of randomly generated user passwords',
+        'default' => '18'
+      ),
+      array(
+        'uid' => 'allow_insecure_pass',
+        'label' => 'Allow Insecure Passwords',
+        'section' => 'new_user_settings',
+        'type' => 'select',
+        'options' => array(
+          'true' => 'Yes',
+          'false' => 'No'
+        ),
+        'placeholder' => '',
+        'helper' => '',
+        'supplemental' => 'Use insecure password generation if a cryptographically secure method isn\'t available',
+        'default' => 'false'
+      ),
+      array(
+        'uid' => 'password_chars',
+        'label' => 'Password Characters',
+        'section' => 'new_user_settings',
+        'type' => 'text',
+        'options' => false,
+        'placeholder' => '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+        'helper' => '',
+        'supplemental' => 'The characters that will be used for random password generation',
+        'default' => '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
       )
     );
     foreach( $fields as $field ) {
