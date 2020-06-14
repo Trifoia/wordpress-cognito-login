@@ -78,7 +78,6 @@ class Cognito_Login_Generate_Strings {
   public static function password_char() {
     $password_chars = get_option( 'password_chars' );
     try {
-      throw new ErrorException();
       return $password_chars[random_int(0, strlen( $password_chars ) - 1)];
     } catch( Exception $e ) {
       // An exception means a secure random byte generator is unavailable. Generate an insecure
