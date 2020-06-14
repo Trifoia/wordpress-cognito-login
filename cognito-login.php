@@ -3,7 +3,7 @@
   Plugin Name: Cognito Login
   Plugin URI: https://github.com/Trifoia/wordpress-cognito-login
   description: WordPress plugin for integrating with Cognito for user logins
-  Version: 1.0.0
+  Version: 1.1.0
   Author: Trifoia
   Author URI: https://trifoia.com
 */
@@ -38,18 +38,13 @@ class Cognito_Login{
   }
 
   /**
-   * Handler for the "query_vars" filter. Adds the query vars we need to the registry
-   */
-  public static function query_vars_handler( $qvars ) {
-    $qvars[] = 'code';
-    return $qvars;
-  }
-
-  /**
    * Handler for the "parse_query" action. This is the "main" function that listens for the
    * correct query variable that will trigger a login attempt
    */
   public static function parse_query_handler() {
+    // Remove this function from the action queue - it should only run once
+    remove_action( 'parse_query', array('Cognito_Login', 'parse_query_handler') );
+
     // Try to get a code from the url query and abort if we don't find one, or the user is already logged in
     $code = Cognito_Login_Auth::get_code();
     if ( $code === FALSE ) return;
@@ -65,7 +60,7 @@ class Cognito_Login{
     // Determine user existence
     if ( !in_array( get_option( 'username_attribute' ), $parsed_token ) ) return;
     $username = $parsed_token[get_option('username_attribute')];
-    
+
     $user = get_user_by( 'login', $username );
     if ( $user === FALSE ) {
       // Create a new user only if the setting is turned on
@@ -89,9 +84,6 @@ class Cognito_Login{
 
 // --- Add Shortcodes ---
 add_shortcode( 'cognito_login', array('Cognito_Login', 'shortcode_default') );
-
-// --- Add Filters ---
-add_filter( 'query_vars', array('Cognito_Login', 'query_vars_handler') );
 
 // --- Add Actions ---
 add_action( 'parse_query', array('Cognito_Login', 'parse_query_handler') );

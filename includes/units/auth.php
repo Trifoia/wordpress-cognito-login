@@ -6,7 +6,9 @@ class Cognito_Login_Auth{
    * Gets the "code" query variable, or FALSE if it doesn't exist
    */
   public static function get_code() {
-    return get_query_var( 'code', FALSE );
+    if ( isset( $_GET['code'] ) ) return $_GET['code'];
+    
+    return false;
   }
 
   /**
