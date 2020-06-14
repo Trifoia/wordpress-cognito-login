@@ -3,7 +3,7 @@
   Plugin Name: Cognito Login
   Plugin URI: https://github.com/Trifoia/wordpress-cognito-login
   description: WordPress plugin for integrating with Cognito for user logins
-  Version: 1.2.0
+  Version: 1.2.1
   Author: Trifoia
   Author URI: https://trifoia.com
 */
@@ -66,6 +66,15 @@ class Cognito_Login{
     $username = $parsed_token[get_option('username_attribute')];
 
     $user = get_user_by( 'login', $username );
+
+    if ( $user === FALSE ) {
+      // Also check for a user that only matches the first part of the email
+      $non_email_username = substr( $username, 0, strpos( $username, '@' ) );
+      $user = get_user_by( 'login', $non_email_username );
+
+      if ( $user !== FALSE ) $username = $non_email_username;
+    }
+
     if ( $user === FALSE ) {
       // Create a new user only if the setting is turned on
       if ( get_option( 'create_new_user' ) !== 'true' ) return;
