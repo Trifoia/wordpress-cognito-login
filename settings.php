@@ -25,6 +25,7 @@ class Cognito_Login_Settings {
   public function plugin_settings_page_content() { ?>
     <div class="wrap">
       <h2>Cognito Login Settings</h2>
+      <p>Documentation: <a href="https://github.com/Trifoia/wordpress-cognito-login/blob/master/README.txt">https://github.com/Trifoia/wordpress-cognito-login/blob/master/README.txt</a></p>
       <form method="post" action="options.php">
         <?php
           settings_fields( 'cognito_login_fields' );

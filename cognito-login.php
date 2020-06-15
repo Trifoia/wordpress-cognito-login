@@ -2,8 +2,8 @@
 /*
   Plugin Name: Cognito Login
   Plugin URI: https://github.com/Trifoia/wordpress-cognito-login
-  description: WordPress plugin for integrating with Cognito for user logins
-  Version: 1.2.2
+  description: WordPress plugin for integrating with Cognito for User Pools
+  Version: 1.2.3
   Author: Trifoia
   Author URI: https://trifoia.com
 */
