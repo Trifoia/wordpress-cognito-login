@@ -4,7 +4,7 @@
  */
 class Cognito_Login_Generate_Strings {
   /**
-   * URL to use in the login link login link href
+   * URL to use in the login link href
    */
   public static function login_url() {
     $app_auth_url = get_option('app_auth_url');

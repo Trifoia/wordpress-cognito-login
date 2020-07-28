@@ -146,6 +146,20 @@ class Cognito_Login_Settings {
         'supplemental' => 'Class to add to the login <a> tag',
         'default' => 'cognito-login-link'
       ),
+      array(
+        'uid' => 'disable_wp_login',
+        'label' => 'Disable WP Login',
+        'section' => 'plugin_settings',
+        'type' => 'select',
+        'options' => array(
+          'true' => 'Yes',
+          'false' => 'No'
+        ),
+        'placeholder' => '',
+        'helper' => '',
+        'supplemental' => 'Should the default WP login system be disabled?',
+        'default' => 'true'
+      ),
 
       // New user settings
       array(

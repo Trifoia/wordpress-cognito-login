@@ -1,0 +1,21 @@
+/* Center the text of the login form */
+body.login div#login form#loginform {
+  text-align: center;
+}
+
+/* Hide all elements inside the login form, as well as the nav, to reduce popping */
+body.login div#login form#loginform > * {
+  display: none;
+}
+body.login p#nav {
+  display: none;
+}
+
+/* 
+  Increase the size of the login link and explicitly set the display so that the above
+  css hiding the internals of the login form is overridden
+*/
+body.login div#login form#loginform a.cognito-login-link {
+  display: inline;
+  font-size: 2em;
+}

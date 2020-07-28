@@ -4,7 +4,7 @@ Tags: aws, cognito, oauth, login
 Requires at least: 5.4.2
 Tested up to: 5.4.2
 Requires PHP: 7.2
-Stable tag: 1.2.3
+Stable tag: 1.3.0
 License: GPL-3.0
 License URI: https://github.com/Trifoia/wordpress-cognito-login/blob/master/LICENSE
 
@@ -58,6 +58,7 @@ The following configurations can be found in the settings menu
                to not redirect the user
 - "Login Link Text" - Default inner html for the login link
 - "Login Link Class" - Default class for the login link <a> tag
+- "Disable WP Login" - If the WordPress login system should be disabled and replaced with a link to the Cognito login page
 
 ## New User Settings
 - "Create New User" - If a new user should be created when first logging in

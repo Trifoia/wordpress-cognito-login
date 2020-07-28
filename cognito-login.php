@@ -3,7 +3,7 @@
   Plugin Name: Cognito Login
   Plugin URI: https://github.com/Trifoia/wordpress-cognito-login
   description: WordPress plugin for integrating with Cognito for User Pools
-  Version: 1.2.3
+  Version: 1.3.0
   Author: Trifoia
   Author URI: https://trifoia.com
 */
@@ -93,6 +93,42 @@ class Cognito_Login{
       Cognito_Login_Auth::redirect_to( $homepage );
     }
   }
+
+  /**
+   * Will disable the default WordPress login experience, replacing the login interface with
+   * a link to the Cognito login page. Will only activate if the disable_wp_login setting
+   * is set to `true`
+   * 
+   * This method should be added to the `login_head` action
+   */
+  public static function disable_wp_login() {
+    if ( get_option( 'disable_wp_login' ) !== 'true' ) return;
+
+    wp_enqueue_style( 'cognito-login-wp-login', plugin_dir_url(__FILE__) . 'public/css/cognito-login-wp-login.css' );
+
+    $loginLink = Cognito_Login_Generate_Strings::a_tag( array(
+      'text' => NULL,
+      'class' => NULL
+    ));
+    ?>
+      <script>
+        window.addEventListener('load', function() {
+          // Get the form
+          var loginForm = document.querySelector('body.login div#login form#loginform');
+
+          // Fully disable the form
+          loginForm.action = '/';
+
+          // Modify the inner HTML, adding the login link and removing everything else
+          loginForm.innerHTML = '<?php echo $loginLink ?>';
+
+          // Also get rid of the nav, password resets are not handled by WordPress
+          var nav = document.querySelector('#nav');
+          nav.parentNode.removeChild(nav);
+        });
+      </script>
+    <?php
+  }
 }
 
 // --- Add Shortcodes ---
@@ -100,3 +136,4 @@ add_shortcode( 'cognito_login', array('Cognito_Login', 'shortcode_default') );
 
 // --- Add Actions ---
 add_action( 'parse_query', array('Cognito_Login', 'parse_query_handler') );
+add_action( 'login_head', array('Cognito_Login', 'disable_wp_login') );
